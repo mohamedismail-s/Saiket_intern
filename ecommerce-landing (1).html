@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopEasy - Online Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+  <style>
+    /* my custom styles on top of bootstrap */
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+    }
+
+    /* navbar */
+    .navbar {
+      background-color: #1a1a2e;
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e94560 !important;
+    }
+    .nav-link {
+      color: #ccc !important;
+    }
+    .nav-link:hover {
+      color: white !important;
+    }
+    .cart-btn {
+      background: #e94560;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .cart-btn:hover {
+      background: #c73652;
+    }
+
+    /* hero section */
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .hero h1 span {
+      color: #e94560;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #aaa;
+      margin-bottom: 30px;
+    }
+    .hero-btns a {
+      margin: 5px;
+    }
+    .btn-main {
+      background: #e94560;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .btn-main:hover {
+      background: #c73652;
+      color: white;
+    }
+    .btn-secondary-outline {
+      border: 2px solid white;
+      color: white;
+      padding: 10px 28px;
+      border-radius: 25px;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .btn-secondary-outline:hover {
+      background: white;
+      color: #1a1a2e;
+    }
+
+    /* category section */
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-subtitle {
+      color: #888;
+      margin-bottom: 35px;
+    }
+
+    .cat-card {
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s;
+      position: relative;
+      height: 180px;
+      display: flex;
+      align-items: flex-end;
+    }
+    .cat-card:hover {
+      transform: translateY(-5px);
+    }
+    .cat-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+    .cat-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 60%);
+    }
+    .cat-label {
+      position: relative;
+      z-index: 2;
+      color: white;
+      padding: 15px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* product cards */
+    .product-card {
+      border: 1px solid #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+      background: white;
+    }
+    .product-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+    .product-img {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background: #f8f8f8;
+      position: relative;
+    }
+    .badge-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #e94560;
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .product-body {
+      padding: 15px;
+    }
+    .product-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 0.95rem;
+    }
+    .product-cat-label {
+      font-size: 0.78rem;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .old-price {
+      font-size: 0.85rem;
+      color: #aaa;
+      text-decoration: line-through;
+      margin-right: 6px;
+    }
+    .add-btn {
+      background: #1a1a2e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .add-btn:hover {
+      background: #e94560;
+    }
+
+    /* filter buttons */
+    .filter-btn {
+      border: 1px solid #ddd;
+      background: white;
+      color: #555;
+      border-radius: 20px;
+      padding: 6px 18px;
+      margin: 3px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #1a1a2e;
+      color: white;
+      border-color: #1a1a2e;
+    }
+
+    /* newsletter */
+    .newsletter-section {
+      background: #1a1a2e;
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+    .newsletter-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .newsletter-section p {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+    .nl-form {
+      display: flex;
+      max-width: 450px;
+      margin: 0 auto;
+      gap: 0;
+    }
+    .nl-form input {
+      flex: 1;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 25px 0 0 25px;
+      outline: none;
+      font-size: 0.9rem;
+    }
+    .nl-form button {
+      background: #e94560;
+      color: white;
+      border: none;
+      border-radius: 0 25px 25px 0;
+      padding: 12px 22px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nl-form button:hover {
+      background: #c73652;
+    }
+    .nl-msg {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+
+    /* cart sidebar */
+    .cart-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 999;
+    }
+    .cart-overlay.show {
+      display: block;
+    }
+    .cart-sidebar {
+      position: fixed;
+      top: 0; right: -400px;
+      width: 360px;
+      height: 100%;
+      background: white;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+      transition: right 0.3s ease;
+    }
+    .cart-sidebar.open {
+      right: 0;
+    }
+    .cart-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-top h5 {
+      margin: 0;
+      font-weight: 700;
+    }
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #555;
+    }
+    .cart-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px 20px;
+    }
+    .cart-empty-msg {
+      text-align: center;
+      color: #aaa;
+      margin-top: 40px;
+      font-size: 0.95rem;
+    }
+    .cart-item-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      align-items: center;
+    }
+    .cart-emoji {
+      font-size: 2rem;
+      width: 55px;
+      height: 65px;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-size: 0.9rem; font-weight: 600; }
+    .cart-item-price { font-size: 0.82rem; color: #888; }
+    .rm-btn { background: none; border: none; color: #bbb; cursor: pointer; font-size: 1rem; }
+    .rm-btn:hover { color: #e94560; }
+    .cart-footer-area {
+      padding: 18px 20px;
+      border-top: 1px solid #eee;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    .checkout-btn {
+      width: 100%;
+      background: #e94560;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .checkout-btn:hover { background: #c73652; }
+
+    /* toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a1a2e;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      z-index: 9999;
+      transition: transform 0.3s;
+      white-space: nowrap;
+    }
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* footer */
+    footer {
+      background: #111;
+      color: #aaa;
+      padding: 40px 0 20px;
+    }
+    footer h6 {
+      color: white;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+    }
+    footer ul { list-style: none; padding: 0; }
+    footer ul li { margin-bottom: 8px; }
+    footer ul li a { color: #888; text-decoration: none; font-size: 0.88rem; }
+    footer ul li a:hover { color: white; }
+    .footer-brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e94560;
+      margin-bottom: 10px;
+    }
+    .footer-bottom {
+      border-top: 1px solid #222;
+      margin-top: 30px;
+      padding-top: 18px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .cart-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- top announcement bar -->
+<div style="background:#e94560; color:white; text-align:center; padding:8px; font-size:0.82rem;">
+  🎉 Free shipping on orders above ₹999 | Use code <strong>SAVE10</strong> for 10% off
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">ShopEasy</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto ms-4">
+        <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="#newsletter">Deals</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+      </ul>
+      <button class="cart-btn" onclick="openCart()">
+        🛒 Cart (<span id="cartCount">0</span>)
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>Shop Smarter, Live <span>Better</span></h1>
+    <p>Discover thousands of products — electronics, fashion, home & more. All in one place.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-main">Shop Now</a>
+      <a href="#categories" class="btn-secondary-outline">Browse Categories</a>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="py-5" id="categories">
+  <div class="container">
+    <h2 class="section-title">Shop by Category</h2>
+    <p class="section-subtitle">Find what you're looking for</p>
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="cat-card" style="background:#fce4ec;">
+          <div class="cat-bg"><img src="https://tse2.mm.bing.net/th/id/OIP.eaty0iFRmfrLvm9dsfEROgHaE8?pid=Api&h=220&P=0" alt=""></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label">Fashion</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cat-card" style="background:#e3f2fd;">
+          <div class="cat-bg"><img src="https://tse1.mm.bing.net/th/id/OIP.1hH2T39XkIrpCkHvMApvTwHaEJ?pid=Api&h=220&P=0"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label">Electronics</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cat-card" style="background:#e8f5e9;">
+          <div class="cat-bg"><img src="https://tse3.mm.bing.net/th/id/OIP.y2WikQFgbDkxUUx5JbU71AHaEJ?pid=Api&h=220&P=0" alt="Home & Living"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label">Home & Living</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="cat-card" style="background:#fff8e1;">
+          <div class="cat-bg"><img src="https://tse1.mm.bing.net/th/id/OIP.2FAF0XXi5fcfOkmPyK_fPAHaEK?pid=Api&h=220&P=0"></div>
+          <div class="cat-overlay"></div>
+          <div class="cat-label">Sports</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="py-5 bg-light" id="products">
+  <div class="container">
+    <h2 class="section-title">Featured Products</h2>
+    <p class="section-subtitle">Handpicked just for you</p>
+
+    <!-- filter buttons -->
+    <div class="mb-4">
+      <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('fashion', this)">Fashion</button>
+      <button class="filter-btn" onclick="filterProducts('electronics', this)">Electronics</button>
+      <button class="filter-btn" onclick="filterProducts('home', this)">Home</button>
+      <button class="filter-btn" onclick="filterProducts('sports', this)">Sports</button>
+    </div>
+
+    <div class="row g-4" id="productsGrid"></div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-section" id="newsletter">
+  <div class="container">
+    <h2>Get Exclusive Deals in Your Inbox</h2>
+    <p>Subscribe and be the first to know about sales, new products & more.</p>
+    <div class="nl-form">
+      <input type="email" id="nlInput" placeholder="Enter your email..." />
+      <button onclick="subscribe()">Subscribe</button>
+    </div>
+    <div class="nl-msg" id="nlMsg"></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="footer-brand-name">ShopEasy</div>
+        <p style="font-size:0.88rem; line-height:1.7;">Your one-stop online store for everything you need. Fast delivery, easy returns, great prices.</p>
+      </div>
+      <div class="col-6 col-md-2">
+        <h6>Shop</h6>
+        <ul>
+          <li><a href="#">New Arrivals</a></li>
+          <li><a href="#">Best Sellers</a></li>
+          <li><a href="#">Sale</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-2">
+        <h6>Help</h6>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md-2">
+        <h6>Company</h6>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 ShopEasy. Made with ❤️ by Mohamed Ismail
+    </div>
+  </div>
+</footer>
+
+<!-- Cart overlay + sidebar -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-top">
+    <h5>🛒 My Cart</h5>
+    <button class="close-cart" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <p class="cart-empty-msg">Nothing in your cart yet!</p>
+  </div>
+  <div class="cart-footer-area">
+    <div class="total-row">
+      <span>Total:</span>
+      <span id="cartTotal">₹0</span>
+    </div>
+    <button class="checkout-btn">Checkout →</button>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast-msg" id="toastMsg"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  // product data
+  var items = [
+    { id: 1, name: 'Cotton Kurti',        cat: 'fashion',     emoji: '👗', price: 799,  oldPrice: 1199, badge: 'Sale' },
+    { id: 2, name: 'Wireless Earbuds',    cat: 'electronics', emoji: '🎧', price: 1499, oldPrice: null, badge: 'New' },
+    { id: 3, name: 'Ceramic Mug Set',     cat: 'home',        emoji: '☕', price: 499,  oldPrice: null, badge: null  },
+    { id: 4, name: 'Running Shoes',       cat: 'sports',      emoji: '👟', price: 2199, oldPrice: 2999, badge: 'Sale' },
+    { id: 5, name: 'Denim Jacket',        cat: 'fashion',     emoji: '🧥', price: 1699, oldPrice: null, badge: 'New' },
+    { id: 6, name: 'Smartphone Stand',    cat: 'electronics', emoji: '📱', price: 349,  oldPrice: null, badge: null  },
+  ];
+
+  var cart = [];
+
+  // render product cards
+  function renderProducts(filter) {
+    var grid = document.getElementById('productsGrid');
+    var toShow = filter === 'all' ? items : items.filter(function(p){ return p.cat === filter; });
+
+    if (toShow.length === 0) {
+      grid.innerHTML = '<p class="text-center text-muted py-4">No products found.</p>';
+      return;
+    }
+
+    var html = '';
+    for (var i = 0; i < toShow.length; i++) {
+      var p = toShow[i];
+      html += '<div class="col-12 col-sm-6 col-md-4">';
+      html += '  <div class="product-card">';
+      html += '    <div class="product-img">';
+      html += '      ' + p.emoji;
+      if (p.badge) html += '      <span class="badge-tag">' + p.badge + '</span>';
+      html += '    </div>';
+      html += '    <div class="product-body">';
+      html += '      <div class="product-cat-label">' + p.cat + '</div>';
+      html += '      <div class="product-name">' + p.name + '</div>';
+      html += '      <div class="d-flex justify-content-between align-items-center mt-2">';
+      html += '        <div>';
+      if (p.oldPrice) html += '<span class="old-price">₹' + p.oldPrice + '</span>';
+      html += '          <span class="price">₹' + p.price + '</span>';
+      html += '        </div>';
+      html += '        <button class="add-btn" onclick="addToCart(' + p.id + ')">+ Add</button>';
+      html += '      </div>';
+      html += '    </div>';
+      html += '  </div>';
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+  }
+
+  // filter logic
+  function filterProducts(cat, btn) {
+    var btns = document.querySelectorAll('.filter-btn');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+    btn.classList.add('active');
+    renderProducts(cat);
+  }
+
+  // add to cart
+  function addToCart(id) {
+    var product = null;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === id) { product = items[i]; break; }
+    }
+    var existing = null;
+    for (var j = 0; j < cart.length; j++) {
+      if (cart[j].id === id) { existing = cart[j]; break; }
+    }
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ id: product.id, name: product.name, emoji: product.emoji, price: product.price, qty: 1 });
+    }
+    updateCartUI();
+    showToast(product.emoji + ' ' + product.name + ' added!');
+  }
+
+  function removeFromCart(id) {
+    cart = cart.filter(function(x){ return x.id !== id; });
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    var total = 0;
+    var count = 0;
+    for (var i = 0; i < cart.length; i++) {
+      total += cart[i].price * cart[i].qty;
+      count += cart[i].qty;
+    }
+    document.getElementById('cartCount').textContent = count;
+    document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString('en-IN');
+
+    var body = document.getElementById('cartBody');
+    if (cart.length === 0) {
+      body.innerHTML = '<p class="cart-empty-msg">Nothing in your cart yet!</p>';
+      return;
+    }
+    var html = '';
+    for (var j = 0; j < cart.length; j++) {
+      var c = cart[j];
+      html += '<div class="cart-item-row">';
+      html += '  <div class="cart-emoji">' + c.emoji + '</div>';
+      html += '  <div class="cart-item-info">';
+      html += '    <div class="cart-item-name">' + c.name + '</div>';
+      html += '    <div class="cart-item-price">₹' + c.price + ' x ' + c.qty + '</div>';
+      html += '  </div>';
+      html += '  <button class="rm-btn" onclick="removeFromCart(' + c.id + ')">✕</button>';
+      html += '</div>';
+    }
+    body.innerHTML = html;
+  }
+
+  function openCart() {
+    document.getElementById('cartSidebar').classList.add('open');
+    document.getElementById('cartOverlay').classList.add('show');
+  }
+
+  function closeCart() {
+    document.getElementById('cartSidebar').classList.remove('open');
+    document.getElementById('cartOverlay').classList.remove('show');
+  }
+
+  // newsletter validation
+  function subscribe() {
+    var val = document.getElementById('nlInput').value.trim();
+    var msg = document.getElementById('nlMsg');
+    // basic email check
+    if (val === '' || val.indexOf('@') === -1 || val.indexOf('.') === -1) {
+      msg.style.color = '#ff8080';
+      msg.textContent = '⚠️ Please enter a valid email address.';
+      return;
+    }
+    msg.style.color = '#90ee90';
+    msg.textContent = '✅ Thanks for subscribing! Check your inbox soon.';
+    document.getElementById('nlInput').value = '';
+  }
+
+  // toast
+  function showToast(text) {
+    var t = document.getElementById('toastMsg');
+    t.textContent = text;
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 2500);
+  }
+
+  // init on load
+  renderProducts('all');
+</script>
+</body>
+</html>

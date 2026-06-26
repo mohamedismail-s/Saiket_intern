@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mohamed Ismail — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --ink: #0d0d0d;
+      --paper: #f5f0e8;
+      --cream: #ede8dc;
+      --accent: #c8541a;
+      --accent2: #2a5c8f;
+      --muted: #7a7060;
+      --border: #d4cfc4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      letter-spacing: -0.02em; color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--ink); transition: all 0.3s; display: block; }
+
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 8rem 4rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg-text {
+      position: absolute; right: -2rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(8rem, 18vw, 18rem);
+      font-weight: 700; color: transparent;
+      -webkit-text-stroke: 1px var(--border);
+      user-select: none; pointer-events: none;
+      white-space: nowrap; z-index: 0;
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent); color: #fff;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.35rem 0.9rem;
+      border-radius: 2px; margin-bottom: 1.5rem;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      line-height: 1.08; font-weight: 700;
+      letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-desc {
+      font-size: 1rem; color: var(--muted); line-height: 1.75;
+      max-width: 420px; margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--ink); color: var(--paper);
+      padding: 0.85rem 2rem; border-radius: 2px;
+      text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.04em; transition: background 0.2s, transform 0.2s;
+    }
+    .hero-cta:hover { background: var(--accent); transform: translateY(-2px); }
+    .hero-cta svg { width: 16px; height: 16px; }
+
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 2.5rem;
+      max-width: 340px; width: 100%;
+      position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top: 10px; left: 10px; right: -10px; bottom: -10px;
+      border: 1px solid var(--border); border-radius: 4px; z-index: -1;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .skill-pill {
+      background: #fff; border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem; border-radius: 100px;
+      font-size: 0.78rem; color: var(--muted);
+    }
+    .stat-row { display: flex; gap: 2rem; margin-top: 1.5rem; }
+    .stat-item h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); }
+    .stat-item p { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: ''; width: 2rem; height: 1px; background: var(--accent);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--cream); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-text p { color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-size: 0.95rem; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .skill-bar-item {}
+    .skill-bar-label { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.35rem; }
+    .skill-bar-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .skill-bar-fill {
+      height: 100%; background: var(--accent); border-radius: 2px;
+      transform-origin: left; animation: fillBar 1.2s ease forwards;
+      transform: scaleX(0);
+    }
+    @keyframes fillBar { to { transform: scaleX(1); } }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--paper); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card {
+      background: var(--cream); border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+    .project-thumb {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative; overflow: hidden;
+    }
+    .project-thumb .thumb-bg {
+      position: absolute; inset: 0; opacity: 0.12;
+      background: repeating-linear-gradient(45deg, var(--ink) 0, var(--ink) 1px, transparent 0, transparent 50%);
+      background-size: 10px 10px;
+    }
+    .project-body { padding: 1.5rem; }
+    .project-tag {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 0.5rem;
+    }
+    .project-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .project-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .project-link {
+      font-size: 0.8rem; font-weight: 500; color: var(--accent2);
+      text-decoration: none; letter-spacing: 0.04em;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .project-link:hover { text-decoration: underline; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--ink); color: var(--paper); }
+    #contact .section-label { color: rgba(245,240,232,0.5); }
+    #contact .section-label::before { background: var(--accent); }
+    #contact .section-title { color: var(--paper); }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .contact-info p { color: rgba(245,240,232,0.65); line-height: 1.8; margin-bottom: 2rem; font-size: 0.95rem; }
+    .contact-detail { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; color: rgba(245,240,232,0.75); font-size: 0.9rem; }
+    .contact-detail svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(245,240,232,0.5); }
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2px; padding: 0.8rem 1rem;
+      color: var(--paper); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--accent); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(245,240,232,0.3); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-error { font-size: 0.75rem; color: #e07070; display: none; }
+    .form-group.error input,
+    .form-group.error textarea { border-color: #e07070; }
+    .form-group.error .form-error { display: block; }
+
+    .btn-submit {
+      align-self: flex-start;
+      background: var(--accent); color: #fff;
+      border: none; padding: 0.9rem 2.2rem;
+      border-radius: 2px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 0.04em; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover { background: #a8431a; transform: translateY(-2px); }
+    .form-success {
+      background: rgba(100,180,100,0.15); border: 1px solid rgba(100,180,100,0.3);
+      color: #8dcc8d; padding: 1rem; border-radius: 2px;
+      font-size: 0.88rem; display: none;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #070707; color: rgba(245,240,232,0.4);
+      text-align: center; padding: 1.5rem;
+      font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; gap: 1rem; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+
+      #home { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; gap: 2rem; }
+      .hero-bg-text { font-size: 6rem; right: -1rem; top: auto; bottom: 2rem; transform: none; }
+      .hero-visual { display: none; }
+      .about-grid, .contact-grid, .form-row { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 2rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#home" class="nav-logo">M. Ismail</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-content fade-in">
+      <span class="hero-tag">Full Stack Developer</span>
+      <h1 class="hero-name">S. Mohamed<br><em>Ismail</em></h1>
+      <p class="hero-desc">
+        Building elegant, performant web applications from front to back.
+        Passionate about clean code, thoughtful design, and seamless user experiences.
+      </p>
+      <a href="#projects" class="hero-cta">
+        View My Work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-visual fade-in" style="animation-delay:0.2s">
+      <div class="hero-card">
+        <div class="section-label">Tech Stack</div>
+        <div class="skill-pills">
+          <span class="skill-pill">HTML5</span>
+          <span class="skill-pill">CSS3</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">React.js</span>
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">Express</span>
+          <span class="skill-pill">MySQL</span>
+          <span class="skill-pill">REST APIs</span>
+          <span class="skill-pill">Git</span>
+        </div>
+        <div class="stat-row">
+          <div class="stat-item"><h3>6</h3><p>Tasks</p></div>
+          <div class="stat-item"><h3>1</h3><p>Month</p></div>
+          <div class="stat-item"><h3>∞</h3><p>Learning</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg-text">DEV</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">Crafting the web, one layer at a time.</h2>
+        <p>
+          I'm a Full Stack Development intern at SaiKet Systems, working on real-world projects that span
+          both front-end interfaces and back-end systems. I thrive at the intersection of logic and creativity.
+        </p>
+        <p>
+          My journey involves learning technologies like React, Node.js, Express, and SQL while
+          building projects that solve genuine problems. I believe great software is as much about
+          the user experience as it is about the code underneath.
+        </p>
+        <p>
+          Currently enrolled in SaiKet Systems' internship program, I'm completing tasks that progress
+          from static websites to full-stack applications — each one building on the last.
+        </p>
+      </div>
+      <div class="fade-in" style="transition-delay:0.15s">
+        <div class="section-label">Proficiency</div>
+        <div class="skills-grid">
+          <div class="skill-bar-item">
+            <div class="skill-bar-label"><span>HTML/CSS</span><span>85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:85%"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-label"><span>JavaScript</span><span>75%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%;animation-delay:0.1s"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-label"><span>React.js</span><span>65%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%;animation-delay:0.2s"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-label"><span>Node.js</span><span>60%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%;animation-delay:0.3s"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-label"><span>SQL</span><span>55%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:55%;animation-delay:0.4s"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-label"><span>REST APIs</span><span>65%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%;animation-delay:0.5s"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">My Work</div>
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card fade-in">
+        <div class="project-thumb" style="background:#f0ebe0">
+          <div class="thumb-bg"></div>
+          <span>🌐</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">Task 1 · HTML / CSS / JS</div>
+          <h3 class="project-title">Static Portfolio Website</h3>
+          <p class="project-desc">A themed personal portfolio with a homepage, projects section, and a contact form with JavaScript validation. Built with Tailwind CSS for responsive design.</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay:0.1s">
+        <div class="project-thumb" style="background:#eaf0f5">
+          <div class="thumb-bg"></div>
+          <span>🛒</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">Task 2 · Bootstrap / Vanilla JS</div>
+          <h3 class="project-title">E-Commerce Landing Page</h3>
+          <p class="project-desc">A fully responsive e-commerce landing page featuring product cards, a hero section, and interactive JavaScript features including form validation and a cart toggle.</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay:0.2s">
+        <div class="project-thumb" style="background:#f0f5ea">
+          <div class="thumb-bg"></div>
+          <span>✅</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">Task 3 · React.js</div>
+          <h3 class="project-title">Task Manager App</h3>
+          <p class="project-desc">A React to-do application demonstrating core framework concepts — components, state management, and props. Supports add, edit, delete, and filter operations.</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay:0.3s">
+        <div class="project-thumb" style="background:#f5eaf0">
+          <div class="thumb-bg"></div>
+          <span>⚙️</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">Task 4 · Node.js / Express</div>
+          <h3 class="project-title">User REST API</h3>
+          <p class="project-desc">A RESTful API built with Node.js and Express supporting full CRUD on a User entity (name, email, age). Endpoints tested and documented via Postman.</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay:0.4s">
+        <div class="project-thumb" style="background:#eaf5f5">
+          <div class="thumb-bg"></div>
+          <span>🗄️</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">Task 5 · SQL / MySQL</div>
+          <h3 class="project-title">Database Integration</h3>
+          <p class="project-desc">Extended the REST API to persist data in a MySQL database. SQL queries handle create, read, update, and delete operations through Express endpoints.</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in" style="transition-delay:0.5s">
+        <div class="project-thumb" style="background:#f5f0ea">
+          <div class="thumb-bg"></div>
+          <span>🚀</span>
+        </div>
+        <div class="project-body">
+          <div class="project-tag">Task 6 · Full Stack</div>
+          <h3 class="project-title">User Management System</h3>
+          <p class="project-desc">A complete full-stack application combining React front-end with a Node/Express/MySQL backend. Users can register, log in, and manage their profiles end-to-end.</p>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="section-title">Let's build something together.</h2>
+        <p>Open to collaborations, feedback, or just a conversation about tech.
+          Fill in the form or reach out directly — I'd love to hear from you.</p>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          ismail@example.com
+        </div>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/>
+          </svg>
+          Chennai, Tamil Nadu, India
+        </div>
+        <div class="contact-detail">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+          linkedin.com/in/mohamedismail
+        </div>
+      </div>
+
+      <div class="fade-in" style="transition-delay:0.15s">
+        <div id="formSuccess" class="form-success">✓ Message sent! I'll get back to you soon.</div>
+        <div class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group" id="grp-name">
+              <label>Full Name</label>
+              <input type="text" id="inp-name" placeholder="Your name" />
+              <span class="form-error">Please enter your name.</span>
+            </div>
+            <div class="form-group" id="grp-email">
+              <label>Email</label>
+              <input type="email" id="inp-email" placeholder="you@email.com" />
+              <span class="form-error">Please enter a valid email.</span>
+            </div>
+          </div>
+          <div class="form-group" id="grp-subject">
+            <label>Subject</label>
+            <input type="text" id="inp-subject" placeholder="What's this about?" />
+            <span class="form-error">Please enter a subject.</span>
+          </div>
+          <div class="form-group" id="grp-message">
+            <label>Message</label>
+            <textarea id="inp-message" placeholder="Tell me more..."></textarea>
+            <span class="form-error">Please write a message.</span>
+          </div>
+          <button class="btn-submit" onclick="submitForm()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 S. Mohamed Ismail · SaiKet Systems Internship · Full Stack Development</p>
+  </footer>
+
+  <script>
+    // ── NAV TOGGLE ──
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    // close on link click
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+
+    // ── SCROLL ANIMATIONS ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── FORM VALIDATION ──
+    function validate(id, errId, checkFn) {
+      const grp = document.getElementById('grp-' + id);
+      const val = document.getElementById('inp-' + id).value.trim();
+      if (!checkFn(val)) { grp.classList.add('error'); return false; }
+      grp.classList.remove('error'); return true;
+    }
+
+    function submitForm() {
+      const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const n = validate('name',    'err-name',    v => v.length > 0);
+      const e = validate('email',   'err-email',   v => emailRx.test(v));
+      const s = validate('subject', 'err-subject', v => v.length > 0);
+      const m = validate('message', 'err-message', v => v.length > 10);
+      if (n && e && s && m) {
+        document.getElementById('contactForm').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      }
+    }
+
+    // live clear errors
+    ['name','email','subject','message'].forEach(id => {
+      document.getElementById('inp-' + id).addEventListener('input', () => {
+        document.getElementById('grp-' + id).classList.remove('error');
+      });
+    });
+  </script>
+</body>
+</html>
